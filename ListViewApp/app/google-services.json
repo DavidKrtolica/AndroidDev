@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "338970280675",
+    "project_id": "androidapp-4d7dc",
+    "storage_bucket": "androidapp-4d7dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338970280675:android:bea2c44b12efccca95bbd6",
+        "android_client_info": {
+          "package_name": "com.example.listviewapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338970280675-n2skc30uavh34r605ordlmjn0oarksg8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5B6T7cU6BY_SHu2ADai--LU2ObZgf-4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338970280675-n2skc30uavh34r605ordlmjn0oarksg8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
