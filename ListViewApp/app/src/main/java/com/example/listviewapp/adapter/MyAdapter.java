@@ -9,18 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.listviewapp.R;
+import com.example.listviewapp.model.Note;
 
 import java.util.List;
 
 public class MyAdapter extends BaseAdapter {
 
     // THIS WILL HOLD THE DATA
-    private List<String> items;
+    private List<Note> items;
 
     // CAN INFLATE LAYOUT FILES
     private LayoutInflater layoutInflater;
 
-    public MyAdapter(List<String> items, Context context) {
+    public MyAdapter(List<Note> items, Context context) {
         this.items = items;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -49,7 +50,7 @@ public class MyAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout)convertView;
         TextView textView = convertView.findViewById(R.id.textView1);
         if(textView != null) {
-            textView.setText(items.get(position));
+            textView.setText(items.get(position).getText());
         }
         return linearLayout;
     }

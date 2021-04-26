@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.listviewapp.adapter.MyAdapter;
 import com.example.listviewapp.adapter.repo.Repo;
+import com.example.listviewapp.model.Note;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity implements Updateable {
 
-    ArrayList<String> items = new ArrayList<>();
+    ArrayList<Note> items = new ArrayList<>();
     ListView listView;
     MyAdapter myAdapter;
     Button buttonAdd;
@@ -43,8 +44,7 @@ public class MainActivity extends AppCompatActivity implements Updateable {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             System.out.println("Clicked on row: " + position);
             Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-            intent.putExtra("note", items.get(position));
-            intent.putExtra("pos", position);
+            intent.putExtra("noteid", items.get(position).getId());
             startActivity(intent);
         });
     }
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements Updateable {
     private void setupAddBtn() {
         buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(e -> {
-            Repo.r().addNote(); // ADD NEW NOTE TO FIREBASE
-            items.add("new note " + items.size());
+            Repo.r().addNote("new note"); // ADD NEW NOTE TO FIREBASE
+            // items.add(new Note());
             // RELOADING DATA USING THE ADAPTER
             myAdapter.notifyDataSetChanged();
         });
@@ -70,5 +70,7 @@ public class MainActivity extends AppCompatActivity implements Updateable {
     public void update(Object o) {
         myAdapter.notifyDataSetChanged();
     }
+
+
 
 }
