@@ -92,9 +92,14 @@ public class Repo {
         });
     }
 
+    public void deleteNote(String id){
+        DocumentReference docRef = db.collection("notes").document(id);
+        docRef.delete();
+    }
+
     public void downloadBitmap(String id, TaskListener taskListener) {
         StorageReference ref = storage.getReference(id);
-        int max = 1024 * 1024;
+        int max = 6000 * 6000;
         ref.getBytes(max).addOnSuccessListener(bytes -> {
             taskListener.receive(bytes);
             System.out.println("Download OK");
