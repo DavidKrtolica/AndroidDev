@@ -37,7 +37,6 @@ import java.io.InputStream;
             Intent intent = new Intent(MainActivity.this, EditSnapActivity.class);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
             imgChosen.setDrawingCacheEnabled(true);
-            //Drawable drawable = ((ImageView)view).getDrawable();
             Bitmap bitmap = imgChosen.getDrawingCache();
             bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
             intent.putExtra("byteArray", bs.toByteArray());
