@@ -54,7 +54,6 @@ import java.io.InputStream;
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
