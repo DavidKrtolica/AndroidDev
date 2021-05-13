@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapApp">
-        <activity android:name=".EditSnapActivity"></activity>
+        <activity android:name=".DetailsActivity"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".EditSnapActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

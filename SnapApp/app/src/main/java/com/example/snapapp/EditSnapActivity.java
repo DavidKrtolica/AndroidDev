@@ -25,7 +25,7 @@ public class EditSnapActivity extends AppCompatActivity {
     private ImageView passingImg;
     private EditText editAddText;
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //private FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
@@ -37,7 +37,7 @@ public class EditSnapActivity extends AppCompatActivity {
         editAddText = findViewById(R.id.editAddText);
 
         // GETTING THE PIC FROM MAIN ACTIVITY
-        if(getIntent().hasExtra("byteArray")) {
+        if(getIntent().hasExtra("byteArray") && !getIntent().hasExtra("data")) {
             Bitmap b = BitmapFactory.decodeByteArray(
                 getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
             passingImg.setImageBitmap(b);
