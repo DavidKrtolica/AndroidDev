@@ -38,6 +38,10 @@ import java.io.InputStream;
         nextBtn = findViewById(R.id.nextBtn);
 
         // SETTING UP THE NEXT BUTTON AND PASSING THE IMAGE TO THE NEXT ACTIVITY WHERE TEXT IS ADDED
+        // THIS METHOD WAS QUITE HARD TO FIGURE OUT FOR ME, AS I WAS HAVING SOME DIFFICULTIES WITH
+        // SENDING THE IMAGE BITMAP TO THE NEXT ACTIVITY SCREEN, AND ONCE I FIGURED THAT OUT I ALSO
+        // HAD TO FIND OUT HOW TO DELETE THE INTENT EXTRA WHICH WAS BEING KEPT FOR AFTERWARDS AND ALSO
+        // CLEAR THE IMAGE VIEW WHICH WAS SET WITH THE CURRENT PICTURE
         nextBtn.setOnClickListener((view) -> {
             Intent intent = new Intent(MainActivity.this, EditSnapActivity.class);
             ByteArrayOutputStream bs = new ByteArrayOutputStream();
@@ -73,17 +77,21 @@ import java.io.InputStream;
         startActivity(intent);
     }
 
+    // IN THIS METHOD WE ARE TAKING EITHER THE PICTURE FROM THE GALLERY OR FROM THE CAMERA,
+    // DEPENDING ON THE REQUEST CODE SENT TO THIS ACTIVITY RESULT METHOD... THESE STATUS CODES
+    // WE PREDEFINED BY ME AND ASSIGNED MANUALLY, SO I COULD DECIDE IN WHICH CASE I WANT WHAT
+    // CODE TO BE EXECUTED
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-        // FIRST PART OF IF-STATEMENT IS FOR THE CAMERA
+        // FIRST PART OF IF-STATEMENT IS FOR GETTING THE IMAGE FROM THE CAMERA
         if (reqCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
             imgChosen.setImageBitmap(imageBitmap);
             System.out.println("selected from camera");
         } else if (reqCode == SELECT_PICTURE && resultCode == RESULT_OK) {
-            // THIS PART IS IN CASE USER PICKS CHOOSE FROM GALLERY OPTION
+            // THIS PART IS IN CASE USER PICKS THE OPTION TO CHOOSE AN IMAGE FROM THE GALLERY
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.example.snapapp.repo.MyRepo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -25,9 +26,6 @@ public class EditSnapActivity extends AppCompatActivity {
     private ImageView passingImg;
     private EditText editAddText;
 
-    //private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,9 @@ public class EditSnapActivity extends AppCompatActivity {
         passingImg = findViewById(R.id.passingImg);
         editAddText = findViewById(R.id.editAddText);
 
-        // GETTING THE PIC FROM MAIN ACTIVITY
+        // HERE WE HAVE A SIMPLE METHOD WHICH TAKES IN THE INTENT EXTRA WHICH IS BEING SENT FROM
+        // THE MAIN ACTIVITY CLASS UNDER THE NAME OF "byteArray" AND THEN USED FOR CREATING A BITMAP
+        // AND THEN OBVIOUSLY TURNING IT INTO AN IMAGE AND SETTING IT INTO THE IMAGE VIEW
         if(getIntent().hasExtra("byteArray") && !getIntent().hasExtra("data")) {
             Bitmap b = BitmapFactory.decodeByteArray(
                 getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
@@ -44,6 +44,9 @@ public class EditSnapActivity extends AppCompatActivity {
         }
     }
 
+    // JON'S METHOD FOR DRAWING/PUTTING THE TEXT ONTO THE PICTURE,
+    // HERE THE ONLY THING I CHANGED WAS THE COLOR OF THE TEXT TO BLACK
+    // AND ALSO UPPED THE FONT TO A BIGGER SIZE FOR IT TO BE MORE READABLE
     public Bitmap drawTextToBitmap(Bitmap image, String gText) {
         Bitmap.Config bitmapConfig = image.getConfig();
         if(bitmapConfig == null) {
@@ -59,6 +62,7 @@ public class EditSnapActivity extends AppCompatActivity {
         return image;
     }
 
+    // BUTTON FOR EXECUTING THE CODE WHICH DRAWS/PUTS TEXT ONTO THE PICTURE
     public void onAddTextPressed(View view) {
         passingImg.buildDrawingCache(true);
         Bitmap currentBitmap = ((BitmapDrawable)passingImg.getDrawable()).getBitmap();
@@ -66,23 +70,14 @@ public class EditSnapActivity extends AppCompatActivity {
         passingImg.setImageBitmap(drawnOn);
     }
 
-    public void uploadBitmap(Bitmap bitmap) {
-        int bitmapId = bitmap.getGenerationId();
-        StorageReference ref = storage.getReference(bitmapId + ".jpg");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        ref.putBytes(baos.toByteArray()).addOnCompleteListener(snap -> {
-            System.out.println("OK to upload " + snap);
-        }).addOnFailureListener(exception -> {
-            System.out.println("failure to upload " + exception);
-        });
-    }
-
+    // BUTTON WHICH SIMPLY SAVES THE IMAGE TO FIRESTORAGE, BUT ALSO CREATES AN
+    // IMGREF DOCUMENT AND SAVES IT TO FIREBASE (THIS DOCUMENT CONTAINS ITS SELF-IF AND
+    // NAME OF THE ACTUAL IMAGE)
     public void saveEditedImagePressed(View view) {
         passingImg.buildDrawingCache(true);
         Bitmap currentBitmap = ((BitmapDrawable)passingImg.getDrawable()).getBitmap();
-        uploadBitmap(currentBitmap);
+        MyRepo.r().uploadBitmap(currentBitmap);
+        MyRepo.r().addImgRef(currentBitmap.getGenerationId() + ".jpg");
         finish();
     }
-
 }

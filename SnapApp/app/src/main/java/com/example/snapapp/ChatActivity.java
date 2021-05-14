@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.example.snapapp.adapter.MyAdapter;
+import com.example.snapapp.model.ImageRef;
 import com.example.snapapp.repo.MyRepo;
 
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity implements Updateable {
 
-    ArrayList<String> imageRefs = new ArrayList<>();
+    ArrayList<ImageRef> imageRefs = new ArrayList<>();
     ListView listView;
     MyAdapter myAdapter;
 
@@ -23,10 +24,14 @@ public class ChatActivity extends AppCompatActivity implements Updateable {
         setContentView(R.layout.activity_chat);
         setupListView();
 
+        // SETTING UP THE REPO AND GETTING ALL IMAGE REFS ("imgRefs" COLLECTION)
         MyRepo.r().setUp(this, imageRefs);
-        System.out.println(imageRefs); // PRINTS EMPTY ARRAY, SO ISSUE -> REPO
     }
 
+    // SETTING UP THE LIST VIEW AS THE CHAT/FEED FUNCTION OF THE APP TO SEE ALL IMAGES
+    // HERE WE ARE PUTTING SOME EXTRAS IN THE INTENT SO WE CAN USE IT IN THE DETAILS
+    // ACTIVITY FOR DELETING THE ACTUAL IMAGE FROM FIRESTORAGE AND THE DOCUMENT FROM
+    // FIREBASE - ALSO USED FOR GETTING THE ACTUAL PICTURE THROUGH REFERENCE
     private void setupListView() {
         listView = findViewById(R.id.chatList);
         myAdapter = new MyAdapter(imageRefs, this);
@@ -34,7 +39,8 @@ public class ChatActivity extends AppCompatActivity implements Updateable {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             System.out.println("Clicked on row: " + position);
             Intent intent = new Intent(ChatActivity.this, DetailsActivity.class);
-            intent.putExtra("imgid", imageRefs.get(position));
+            intent.putExtra("imgref", imageRefs.get(position).getRef());
+            intent.putExtra("imgid", imageRefs.get(position).getId());
             startActivity(intent);
         });
     }

@@ -9,17 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.snapapp.R;
+import com.example.snapapp.model.ImageRef;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends BaseAdapter {
 
-    private ArrayList<String> images;
+    private List<ImageRef> images;
 
     // CAN INFLATE LAYOUT FILES
     private LayoutInflater layoutInflater;
 
-    public MyAdapter(ArrayList<String> images, Context context) {
+    public MyAdapter(List<ImageRef> images, Context context) {
         this.images = images;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -48,7 +50,7 @@ public class MyAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout)convertView;
         TextView textView = convertView.findViewById(R.id.rowText);
         if(textView != null) {
-            textView.setText(images.get(position));
+            textView.setText(images.get(position).getRef());
         }
         return linearLayout;
     }
