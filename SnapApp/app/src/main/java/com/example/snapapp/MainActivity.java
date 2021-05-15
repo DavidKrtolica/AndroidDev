@@ -52,6 +52,7 @@ import java.io.InputStream;
             startActivity(intent);
             // CLEAR IMAGEVIEW AND BITMAP
             imgChosen.destroyDrawingCache();
+            imgChosen.setImageDrawable(null);
             bitmap.recycle();
             intent.removeExtra("byteArray");
         });
