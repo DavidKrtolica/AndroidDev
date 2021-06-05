@@ -62,6 +62,7 @@ public class MyRepo {
     public void deleteReminder(String id){
         DocumentReference docRef = db.collection("reminders").document(id);
         docRef.delete();
+        activity.update(null);
     }
 
     public Reminder getReminderWith(String id){
